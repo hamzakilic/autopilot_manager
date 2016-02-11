@@ -95,7 +95,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	common/AtpmException.$(OBJEXT) common/AtpmLog.$(OBJEXT) \
-	ui/BaseWindow.$(OBJEXT) ui/MainWindow.$(OBJEXT)
+	ui/BaseWindow.$(OBJEXT) ui/MainWindow.$(OBJEXT) \
+	ui/BaseElement.$(OBJEXT) ui/Rectangle.$(OBJEXT) \
+	ui/Color.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -251,7 +253,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp ui/BaseWindow.cpp ui/MainWindow.cpp
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp  ui/BaseWindow.cpp ui/MainWindow.cpp ui/BaseElement.cpp ui/Rectangle.cpp ui/Color.cpp
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -350,6 +352,11 @@ ui/BaseWindow.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/MainWindow.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
+ui/BaseElement.$(OBJEXT): ui/$(am__dirstamp) \
+	ui/$(DEPDIR)/$(am__dirstamp)
+ui/Rectangle.$(OBJEXT): ui/$(am__dirstamp) \
+	ui/$(DEPDIR)/$(am__dirstamp)
+ui/Color.$(OBJEXT): ui/$(am__dirstamp) ui/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -366,8 +373,11 @@ distclean-compile:
 include ./$(DEPDIR)/autopilot_manager.Po
 include common/$(DEPDIR)/AtpmException.Po
 include common/$(DEPDIR)/AtpmLog.Po
+include ui/$(DEPDIR)/BaseElement.Po
 include ui/$(DEPDIR)/BaseWindow.Po
+include ui/$(DEPDIR)/Color.Po
 include ui/$(DEPDIR)/MainWindow.Po
+include ui/$(DEPDIR)/Rectangle.Po
 
 .cpp.o:
 	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

@@ -18,6 +18,15 @@ MainWindow::MainWindow() {
 MainWindow::~MainWindow() {
 	// TODO Auto-generated destructor stub
 }
+void MainWindow::AddChild(BaseElement *element){
+   childs.push_back(element);
+}
+void MainWindow::Render(){
+   for(atpm_int32 i=0;i<childs.size();++i){
+	   childs[i]->Render();
+   }
+}
+
 
 } /* namespace atpm::ui */
 } /* namespace atpm*/

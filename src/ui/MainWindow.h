@@ -8,7 +8,10 @@
 #ifndef UI_MAINWINDOW_H_
 #define UI_MAINWINDOW_H_
 #include "../ui/BaseWindow.h"
+#include "../ui/BaseElement.h"
+#include <vector>
 
+using namespace std;
 namespace atpm {
 namespace ui{
 
@@ -16,6 +19,10 @@ class MainWindow:public BaseWindow {
 public:
 	MainWindow();
 	virtual ~MainWindow();
+	virtual void AddChild(BaseElement *element);
+	virtual void Render();
+private:
+	vector<BaseElement *> childs;
 };
 
 } /* namespace atpm::ui */

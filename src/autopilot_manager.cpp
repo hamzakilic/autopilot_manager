@@ -15,6 +15,8 @@
 #include <common/AtpmException.h>
 #include <ui/BaseWindow.h>
 #include <ui/MainWindow.h>
+#include <ui/BaseElement.h>
+#include <ui/Rectangle.h>
 
 using namespace std;
 using namespace atpm;
@@ -41,8 +43,10 @@ int main(void) {
 	try{
 		initializeSDL();
        MainWindow window;
+       Rectangle *rect=new Rectangle(window,30,30,Color(50,50,50,50));
+       window.AddChild(rect);
        while(!quit){
-    	   while( !quit ) {
+
     		   //Handle events on queue
     		   while( SDL_PollEvent( &ev ) != 0 )
     		   { //User requests quit
@@ -50,9 +54,10 @@ int main(void) {
     			   { quit = 1; }
     			   //Handle window events
     			   window.HandleEvents( ev );
-    		   //Only draw when not minimized if( !gWindow.isMinimized() ) { //Clear screen SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF ); SDL_RenderClear( gRenderer ); //Render text textures gSceneTexture.render( ( gWindow.getWidth() - gSceneTexture.getWidth() ) / 2, ( gWindow.getHeight() - gSceneTexture.getHeight() ) / 2 ); //Update screen SDL_RenderPresent( gRenderer ); } }
+
     		   }
-    	   }
+
+    	   SDL_Delay(1000/25);
        }
 
 	}catch(AtpmException &ex){

@@ -12,20 +12,23 @@ namespace ui{
 
 BaseWindow::BaseWindow(const atpm_cstring * _name,atpm_uint32 _width,atpm_uint32 _height):name(_name,strlen(_name)), width(_width),height(_height),renderer(0),window(0),windowId(0) {
 
-	window = SDL_CreateWindow( name.c_str() , SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow( name.c_str() , SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE|SDL_WINDOW_SHOWN);
 	if(window==NULL)
 		throw AtpmException("Could not create window");
-	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 	if(renderer==NULL)
 		throw AtpmException("Could not create renderer");
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
 	windowId=SDL_GetWindowID(window);
 
 }
 
 BaseWindow::~BaseWindow() {
-   if(window!=NULL)
+	if(renderer!=NULL)
+		SDL_DestroyRenderer(renderer);
+   if(window!=NULL){
 	   SDL_DestroyWindow(window);
+   }
 
 }
 
@@ -104,40 +107,68 @@ void BaseWindow::HandleEvents(SDL_Event &ev){
             HandleWindowClose();
             break;
         }
+	}else if(ev.type==SDL_KEYDOWN && ev.window.windowID == windowId){
+		HandleKey(ev.key);
+	}else  if(ev.type==SDL_MOUSEMOTION && ev.window.windowID == windowId){
+		HandleMouse(ev.motion);
 	}
 
 }
 
-void BaseWindow::HandleWindowShow(){
 
+void BaseWindow::HandleMouse(SDL_MouseMotionEvent &mouse){
+	AtpmLog::Debug("BaseWindow HandleMouse Called x:%d y:%d\n",mouse.x,mouse.y);
+}
+
+void BaseWindow::HandleKey(SDL_KeyboardEvent &key){
+	switch(key.type){
+	case SDL_KEYDOWN:AtpmLog::Debug("BaseWindow HandleKey Called KeyDown\n");break;
+	case SDL_KEYUP:AtpmLog::Debug("BaseWindow HandleKey Called KeyUp\n");break;
+	default:break;
+	}
+	switch(key.keysym.sym ){
+	case SDLK_UP:AtpmLog::Debug("BaseWindow HandleKey Called Key is:Up\n");break;
+
+	}
+}
+
+void BaseWindow::HandleWindowShow(){
 AtpmLog::Debug("BaseWindow HandleWindowShow Called\n");
+
 }
 void BaseWindow::HandleWindowHidden(){
 	AtpmLog::Debug("BaseWindow HandleWindowHidden Called\n");
+
 
 }
 void BaseWindow::HandleWindowSizeChanged(atpm_uint32 newwidth,atpm_uint32 newheight){
 	AtpmLog::Debug("BaseWindow HandleWindowSizeChanged Called\n");
 
+
 }
 void BaseWindow::HandleWindowExposed(){
 	AtpmLog::Debug("BaseWindow HandleWindowExposed Called\n");
+	Render();
 
 }
 void BaseWindow::HandleWindowMouseEnter(){
 	AtpmLog::Debug("BaseWindow HandleWindowMouseEnter Called\n");
 
+
 }
 void BaseWindow::HandleWindowMouseExit(){
 	AtpmLog::Debug("BaseWindow HandleWindowMouseExit Called\n");
+
 
 }
 void BaseWindow::HandleWindowKeyboardFocused(){
 	AtpmLog::Debug("BaseWindow HandleWindowKeyboardFocused Called\n");
 
+
 }
 void BaseWindow::HandleWindowKeyboardFocusedLost(){
 	AtpmLog::Debug("BaseWindow HandleWindowKeyboardFocusedLost Called\n");
+
 
 }
 void BaseWindow::HandleWindowMinimized(){
@@ -147,15 +178,28 @@ void BaseWindow::HandleWindowMinimized(){
 void BaseWindow::HandleWindowMaximized(){
 	AtpmLog::Debug("BaseWindow HandleWindowMaximized Called\n");
 
+
 }
 void BaseWindow::HandleWindowRestored(){
 	AtpmLog::Debug("BaseWindow HandleWindowRestored Called\n");
+
 
 }
 
 void BaseWindow::HandleWindowClose(){
 	AtpmLog::Debug("BaseWindow HandleWindowClose Called\n");
 
+}
+
+
+void BaseWindow::Render(){
+	AtpmLog::Debug("BaseWindow Render Called\n");
+	SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+	SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+}
+SDL_Renderer * BaseWindow::GetRenderer(){
+	return renderer;
 }
 
 

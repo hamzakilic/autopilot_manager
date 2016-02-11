@@ -23,6 +23,8 @@ public:
 	virtual ~BaseWindow();
     virtual void Show();
     void HandleEvents(SDL_Event &ev);
+    virtual void Render();
+    SDL_Renderer * GetRenderer();
 protected:
    virtual void HandleWindowShow();
    virtual void HandleWindowHidden();
@@ -36,10 +38,8 @@ protected:
    virtual void HandleWindowMaximized();
    virtual void HandleWindowRestored();
    virtual void HandleWindowClose();
-
-
-
-
+   virtual void HandleKey(SDL_KeyboardEvent &key);
+   virtual void HandleMouse(SDL_MouseMotionEvent &mouse);
 
 
 private:
@@ -51,6 +51,7 @@ protected:
 	SDL_Renderer *renderer;
 	SDL_Window *window;
 	atpm_int32 windowId;
+
 
 
 
