@@ -20,6 +20,13 @@ AtpmException::AtpmException(const atpm_cstring * _msg)throw():msg(_msg,strlen(_
 
 }
 
+AtpmException::AtpmException(const atpm_cstring * _msg,const atpm_cstring *_error)throw():msg(_msg,strlen(_msg)){
+	msg +=_error;
+	msg+="\n";
+
+}
+
+
 
 AtpmException::~AtpmException()throw() {
 	// TODO Auto-generated destructor stub

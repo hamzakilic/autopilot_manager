@@ -78,9 +78,10 @@ int main(void) {
 
        MainWindow window;
        RectangleElement *rect=new RectangleElement(window,0,0,0.5f,1.0f,100,Color(255,255,0,255));
-       LogsElement *rect2=new LogsElement(window,0.2,0,0.5f,0.5f,100,Color(0,255,0,255));
+       LogsElement *logs=new LogsElement(window,0.2,0,0.5f,0.5f,100,Color(255,0,0,255),Color(255,255,0,255));
+       logs->AddLog(atpm_string("hamza"));
        window.AddChild(rect);
-       window.AddChild(rect2);
+       window.AddChild(logs);
        while(!quit){
 
     		   //Handle events on queue
@@ -96,7 +97,7 @@ int main(void) {
     	   SDL_Delay(1000/25);
        }
        delete rect;
-       delete rect2;
+       delete logs;
 
 	}catch(AtpmException &ex){
 		cout<<ex.what()<<endl;

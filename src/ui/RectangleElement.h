@@ -10,6 +10,7 @@
 
 #include "../ui/BaseElement.h"
 #include "../ui/Color.h"
+#include "../ui/TextureHelper.h"
 
 namespace atpm {
 namespace ui {

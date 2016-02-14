@@ -25,25 +25,26 @@ RectangleElement::~RectangleElement() {
 void RectangleElement::OnRender(){
     AtpmLog::Debug("Rendering Rectangle\n");
 
-	atpm_uint32 textureFormat;
-	atpm_int32 access,w,h;
-	SDL_QueryTexture(texture,&textureFormat,&access,&w,&h);
+    TextureHelper texHelper(texture);
 
-	atpm_uint32 *pixels;
-	atpm_int32 pitch;
-	atpm_uint32 calcColor=fillColor.R<<24;
-	calcColor|=fillColor.G<<16;
-	calcColor|=fillColor.B<<8;
-	calcColor|=fillColor.A;
+    atpm_uint32 calcColor=fillColor.A<<24;
+	calcColor|=fillColor.R<<16;
+	calcColor|=fillColor.G<<8;
+	calcColor|=fillColor.B;
+	texHelper.Lock();
+	AtpmLog::Debug("Rectangle w:%d h:%d p:%d\n",texHelper.Width(),texHelper.Height(),texHelper.Pitch());
+    atpm_int32 pixelCount=texHelper.PixelCount();
 
-	SDL_LockTexture(texture,NULL,(void**)&pixels,&pitch);
-    atpm_int32 pixelCount=pitch/4*h;
+    for(atpm_uint32 h=0;h<texHelper.Height();++h){
 
-    for(atpm_uint32 i=0;i<pixelCount;++i)
-    	pixels[i]=calcColor;
+    	for(atpm_uint32 w=0;w<texHelper.Width();++w){
+    	texHelper.Pixels[h*texHelper.Width()+w]=calcColor;
 
+    	}
+    }
 
-	SDL_UnlockTexture(texture);
+    texHelper.Unlock();
+
 
 
 

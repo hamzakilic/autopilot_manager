@@ -33,7 +33,7 @@ void BaseElement::CreateTexture(){
 		SDL_DestroyTexture(texture);
 
 		SDL_GetWindowSize(window.GetSdlWindow(),&window_width,&window_height);
-		texture=SDL_CreateTexture(window.GetRenderer() , SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, width*window_width, height*window_height);
+		texture=SDL_CreateTexture(window.GetRenderer() , SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width*window_width, height*window_height);
 		if(texture==NULL)
 			throw AtpmException("Could not create texture\n");
 		SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);

@@ -17,6 +17,7 @@ class AtpmException:public exception {
 public:
 	AtpmException(atpm_string &_msg)throw();
 	AtpmException(const atpm_cstring * _msg)throw();
+	AtpmException(const atpm_cstring * _msg,const atpm_cstring *_error)throw();
 	virtual ~AtpmException()throw();
 	virtual const atpm_cstring * what() const throw();
 private:
