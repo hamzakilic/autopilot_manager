@@ -25,6 +25,7 @@ public:
     void HandleEvents(SDL_Event &ev);
     virtual void Render();
     SDL_Renderer * GetRenderer();
+    SDL_Window * GetSdlWindow();
 protected:
    virtual void HandleWindowShow();
    virtual void HandleWindowHidden();
@@ -40,6 +41,7 @@ protected:
    virtual void HandleWindowClose();
    virtual void HandleKey(SDL_KeyboardEvent &key);
    virtual void HandleMouse(SDL_MouseMotionEvent &mouse);
+   virtual void DrawBackground();
 
 
 private:

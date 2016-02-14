@@ -190,16 +190,22 @@ void BaseWindow::HandleWindowClose(){
 	AtpmLog::Debug("BaseWindow HandleWindowClose Called\n");
 
 }
-
+ void BaseWindow::DrawBackground(){
+	SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+		SDL_RenderClear(renderer);
+}
 
 void BaseWindow::Render(){
 	AtpmLog::Debug("BaseWindow Render Called\n");
-	SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
-	SDL_RenderClear(renderer);
+
     SDL_RenderPresent(renderer);
 }
 SDL_Renderer * BaseWindow::GetRenderer(){
 	return renderer;
+}
+SDL_Window * BaseWindow::GetSdlWindow(){
+	return window;
+
 }
 
 

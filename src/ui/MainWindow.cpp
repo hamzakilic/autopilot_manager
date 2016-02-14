@@ -22,9 +22,13 @@ void MainWindow::AddChild(BaseElement *element){
    childs.push_back(element);
 }
 void MainWindow::Render(){
+   DrawBackground();
    for(atpm_int32 i=0;i<childs.size();++i){
 	   childs[i]->Render();
    }
+   BaseWindow::Render();
+
+
 }
 
 

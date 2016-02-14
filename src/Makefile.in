@@ -96,8 +96,8 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	common/AtpmException.$(OBJEXT) common/AtpmLog.$(OBJEXT) \
 	ui/BaseWindow.$(OBJEXT) ui/MainWindow.$(OBJEXT) \
-	ui/BaseElement.$(OBJEXT) ui/Rectangle.$(OBJEXT) \
-	ui/Color.$(OBJEXT)
+	ui/BaseElement.$(OBJEXT) ui/RectangleElement.$(OBJEXT) \
+	ui/LogsElement.$(OBJEXT) ui/Color.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -181,7 +181,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = `sdl2-config --libs`
+LIBS = `sdl2-config --libs` -lSDL2_ttf
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -253,7 +253,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp  ui/BaseWindow.cpp ui/MainWindow.cpp ui/BaseElement.cpp ui/Rectangle.cpp ui/Color.cpp
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp  ui/BaseWindow.cpp ui/MainWindow.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/Color.cpp
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -354,7 +354,9 @@ ui/MainWindow.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/BaseElement.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
-ui/Rectangle.$(OBJEXT): ui/$(am__dirstamp) \
+ui/RectangleElement.$(OBJEXT): ui/$(am__dirstamp) \
+	ui/$(DEPDIR)/$(am__dirstamp)
+ui/LogsElement.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/Color.$(OBJEXT): ui/$(am__dirstamp) ui/$(DEPDIR)/$(am__dirstamp)
 
@@ -376,8 +378,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseElement.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/Color.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/LogsElement.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/MainWindow.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/Rectangle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/RectangleElement.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
