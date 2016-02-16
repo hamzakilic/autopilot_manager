@@ -12,7 +12,7 @@ namespace ui {
 
 LogsElement::LogsElement(BaseWindow &_window,atpm_float32 _x,atpm_float32 _y,atpm_float32 _width,atpm_float32 _height,atpm_uint8 _transparency, Color _fillColor,Color _foreColor)
 :RectangleElement(_window,_x,_y,_width,_height,_transparency,_fillColor),gFont(0),foreColor(_foreColor){
-	gFont =  TTF_OpenFont( "/work/projects/tobor/autopilot_manager/src/fonts/OpenSans-Regular.ttf", 28 );
+	gFont =  TTF_OpenFont( "/work/projects/tobor/autopilot_manager/src/fonts/OpenSans-Regular.ttf", 14 );
 				if(gFont==NULL)
 					throw AtpmException("font loading exception\n");
 
@@ -25,6 +25,8 @@ LogsElement::~LogsElement() {
 }
 
 void LogsElement::AddLog(atpm_string log){
+	if(logs.size()==20)
+		logs.pop_front();
    logs.push_back(log);
 
 }
@@ -43,7 +45,7 @@ void LogsElement::OnRender(){
 
 	for(list<atpm_string>::iterator it=logs.begin();it!=logs.end();++it){
 	SDL_Surface* textSurface = TTF_RenderUTF8_Blended(gFont, (*it).c_str(), color );
-    AtpmLog::Debug("Surface w:%d h:%d p:%d\n",textSurface->w,textSurface->h,textSurface->pitch);
+
 
 	if(textSurface==NULL)
 		throw AtpmException("TTF surface create failed",SDL_GetError());

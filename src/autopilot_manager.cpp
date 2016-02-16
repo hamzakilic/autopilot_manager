@@ -18,11 +18,14 @@
 #include <ui/BaseElement.h>
 #include <ui/RectangleElement.h>
 #include <ui/LogsElement.h>
+#include <log/LogPort.h>
+#include <log/LogParser.h>
 
 using namespace std;
 using namespace atpm;
 using namespace atpm::common;
 using namespace atpm::ui;
+using namespace atpm::log;
 
 
 
@@ -77,11 +80,15 @@ int main(void) {
 
 
        MainWindow window;
-       RectangleElement *rect=new RectangleElement(window,0,0,0.5f,1.0f,100,Color(255,255,0,255));
-       LogsElement *logs=new LogsElement(window,0.2,0,0.5f,0.5f,100,Color(255,0,0,255),Color(255,255,0,255));
+       //RectangleElement *rect=new RectangleElement(window,0,0,0.5f,1.0f,100,Color(255,255,0,255));
+       LogsElement *logs=new LogsElement(window,0.2,0,0.5f,0.5f,100,Color(255,255,0,255),Color(255,0,255,255));
        logs->AddLog(atpm_string("hamza"));
-       window.AddChild(rect);
+       logs->AddLog(atpm_string("kılıç"));
+
+       //window.AddChild(rect);
        window.AddChild(logs);
+       LogParser parser;
+       LogPort port(9999,parser);
        while(!quit){
 
     		   //Handle events on queue
@@ -96,7 +103,7 @@ int main(void) {
 
     	   SDL_Delay(1000/25);
        }
-       delete rect;
+       //delete rect;
        delete logs;
 
 	}catch(AtpmException &ex){

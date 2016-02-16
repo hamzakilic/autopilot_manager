@@ -98,7 +98,8 @@ am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	ui/BaseWindow.$(OBJEXT) ui/MainWindow.$(OBJEXT) \
 	ui/TextureHelper.$(OBJEXT) ui/BaseElement.$(OBJEXT) \
 	ui/RectangleElement.$(OBJEXT) ui/LogsElement.$(OBJEXT) \
-	ui/Color.$(OBJEXT)
+	ui/Color.$(OBJEXT) log/LogPort.$(OBJEXT) \
+	log/LogParser.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -254,7 +255,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp   ui/BaseWindow.cpp ui/MainWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/Color.cpp
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp   ui/BaseWindow.cpp ui/MainWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/Color.cpp log/LogPort.cpp log/LogParser.cpp
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -362,6 +363,16 @@ ui/RectangleElement.$(OBJEXT): ui/$(am__dirstamp) \
 ui/LogsElement.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/Color.$(OBJEXT): ui/$(am__dirstamp) ui/$(DEPDIR)/$(am__dirstamp)
+log/$(am__dirstamp):
+	@$(MKDIR_P) log
+	@: > log/$(am__dirstamp)
+log/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) log/$(DEPDIR)
+	@: > log/$(DEPDIR)/$(am__dirstamp)
+log/LogPort.$(OBJEXT): log/$(am__dirstamp) \
+	log/$(DEPDIR)/$(am__dirstamp)
+log/LogParser.$(OBJEXT): log/$(am__dirstamp) \
+	log/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -370,6 +381,7 @@ autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEP
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f common/*.$(OBJEXT)
+	-rm -f log/*.$(OBJEXT)
 	-rm -f ui/*.$(OBJEXT)
 
 distclean-compile:
@@ -378,6 +390,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/autopilot_manager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/AtpmException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/AtpmLog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@log/$(DEPDIR)/LogParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@log/$(DEPDIR)/LogPort.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseElement.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/Color.Po@am__quote@
@@ -519,6 +533,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f common/$(DEPDIR)/$(am__dirstamp)
 	-rm -f common/$(am__dirstamp)
+	-rm -f log/$(DEPDIR)/$(am__dirstamp)
+	-rm -f log/$(am__dirstamp)
 	-rm -f ui/$(DEPDIR)/$(am__dirstamp)
 	-rm -f ui/$(am__dirstamp)
 
@@ -530,7 +546,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) log/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -576,7 +592,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) log/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

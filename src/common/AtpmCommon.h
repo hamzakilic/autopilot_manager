@@ -12,6 +12,14 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include <queue>
+#include <list>
+
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <errno.h>
+
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
