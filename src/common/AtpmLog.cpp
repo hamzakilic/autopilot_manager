@@ -22,11 +22,13 @@ AtpmLog::~AtpmLog() {
 void AtpmLog::Debug(const atpm_cstring *msg, ...){
 	        va_list arg;
 			va_start(arg, msg);
-			char *buffer=new char[255];
-			memset(buffer,0,255);
-			vsnprintf(buffer,255,msg,arg);
+			char buffer[1024];
+			memset(buffer,0,1024);
+			vsnprintf(buffer,1023,msg,arg);
 			va_end(arg);
 			cout<<buffer;
+
+
 }
 
 }

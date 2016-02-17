@@ -11,6 +11,7 @@
 #include "../common/AtpmCommon.h"
 #include "../common/AtpmException.h"
 #include "../common/AtpmLog.h"
+#include "../common/AtpmMutex.h"
 #include "../ui/BaseWindow.h"
 
 namespace atpm {
@@ -38,6 +39,7 @@ protected:
 	SDL_Texture *texture;
 	atpm_int32 window_height;
 	atpm_int32 window_width;
+
 
 };
 

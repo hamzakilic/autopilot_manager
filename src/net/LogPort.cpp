@@ -5,13 +5,14 @@
  *      Author: root
  */
 
-#include "../log/LogPort.h"
+#include "../net/LogPort.h"
 
 namespace atpm {
-namespace log {
+namespace net {
 
 
 LogItem::LogItem(atpm_byte *val,atpm_int32 _length):Value(val),Length(_length){
+
 
 }
 
@@ -23,15 +24,15 @@ LogItem::~LogItem(){
 
 
 
-LogPort::LogPort(atpm_uint16 _port,LogParser &_parser)
-:port(_port),sockfd(0),listening_thread(0),listen_wait(0),parser_thread(0),parser_wait(0),logs_mutex(0),parser(_parser) {
-  logs_mutex=SDL_CreateMutex();
-  if(logs_mutex==NULL)
-	  throw AtpmException("SDL create mutex failed",SDL_GetError());
- createSocket();
+LogPort::LogPort(atpm_uint16 _port)
+:port(_port),sockfd(0),listening_thread(0),listen_wait(0) {
+
+
  createListeningThread();
 
+
 }
+
 
 LogPort::~LogPort() {
 	AtpmLog::Debug("Destructing LogPort\n");
@@ -43,12 +44,14 @@ LogPort::~LogPort() {
 	AtpmLog::Debug("Destructed LogPort\n");
 	close(sockfd);
 
+
 }
 
-void LogPort::createSocket(){
+void createSocket(LogPort *port){
 	AtpmLog::Debug("Creating Listening Socket\n");
-	sockfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
-		if(sockfd==-1)
+	port->sockfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+
+		if(port->sockfd==-1)
 		{
 			throw AtpmException(strerror(errno));
 
@@ -57,39 +60,44 @@ void LogPort::createSocket(){
 		tv.tv_sec = 1;
 		tv.tv_usec = 0;
 
-		if(setsockopt(sockfd,SOL_SOCKET,SO_RCVTIMEO,&tv,sizeof(tv))){
+		if(setsockopt(port->sockfd,SOL_SOCKET,SO_RCVTIMEO,&tv,sizeof(tv))){
 			throw AtpmException("Socket timeout option set error\n");
 		}
 
-		bzero(&servaddr,sizeof(servaddr));
-		servaddr.sin_family = AF_INET;
-		servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
-		servaddr.sin_port=htons(port);
+		bzero(&port->servaddr,sizeof(port->servaddr));
+
+		port->servaddr.sin_family = AF_INET;
+		port->servaddr.sin_port=htons(port->port);
+		port->servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
+
 		errno=0;
-		atpm_int32 err= bind(sockfd,(struct sockaddr *)&servaddr,sizeof(servaddr));
+		atpm_int32 err= bind(port->sockfd,(const struct sockaddr *)&port->servaddr,sizeof(port->servaddr));
 		if(err==-1){
 			throw AtpmException(strerror(errno));
 
 		}
-		AtpmLog::Debug("Listening logs on port:%d\n",port);
+		AtpmLog::Debug("Listening logs on port:%u\n",port->port);
 }
 atpm_int32 readSocket(void *arg){
     LogPort *port=(LogPort*)arg;
 	atpm_byte bytes[1024];
-    socklen_t len=sizeof(port->cliaddr);
+    socklen_t len=sizeof(port->servaddr);
+
+    createSocket(port);
 
 	while(port->listen_wait){
      errno=0;
 	 atpm_int32 received_size= recvfrom(port->sockfd,bytes,1024,0,(struct sockaddr*)&port->cliaddr,&len);
 	 if(received_size>0){
+		AtpmLog::Debug("Received packet from %s:%d\n",inet_ntoa(port->cliaddr.sin_addr), ntohs(port->cliaddr.sin_port));
 	 atpm_byte *temp=new atpm_byte[received_size];
 	 memcpy(temp,bytes,received_size);
 	 LogItem *log=new LogItem(temp,received_size);
-	 SDL_LockMutex(port->logs_mutex);
+	 port->logs_mutex.Lock();
 	 port->logs.push(log);
-	 SDL_UnlockMutex(port->logs_mutex);
+	 port->logs_mutex.Unlock();
 	 }else{
-		 AtpmLog::Debug("LogPort recvfrom timeout: %s\n",strerror(errno));
+		AtpmLog::Debug("LogPort recvfrom timeout: %s\n",strerror(errno));
 	 }
 
 	}
@@ -107,35 +115,27 @@ void LogPort::createListeningThread(){
 }
 
 
+atpm_uint32 LogPort::LogSize(){
+	logs_mutex.Lock();
+	atpm_uint32 length= logs.size();
+	logs_mutex.Unlock();
+	return length;
 
-atpm_int32 parseLogs(void *arg){
-
-	LogPort *port=(LogPort*)arg;
-	while(port->parser_wait){
-		if(port->logs.size()){
-			LogItem *item=NULL;
-			SDL_LockMutex(port->logs_mutex);
-			item= port->logs.front();
-			port->logs.pop();
-			SDL_UnlockMutex(port->logs_mutex);
-			port->parser.Parse(item->Value,item->Length);
-			delete item;
-
-		}else SDL_Delay(100);
+}
+	LogItem * LogPort::NextLog(){
+		LogItem *item=NULL;
+		 logs_mutex.Lock();
+		  item= logs.front();
+		 logs.pop();
+		logs_mutex.Unlock();
+		return item;
 	}
-	return 0;
 
 
-}
 
-void LogPort::createParserThread(){
 
-	parser_wait=1;
-		parser_thread= SDL_CreateThread(parseLogs,"Parsing Thread",this);
-		if(parser_thread==NULL)
-			throw AtpmException("LogPort create ParsingThread Failed:",SDL_GetError());
 
-}
+
 
 
 

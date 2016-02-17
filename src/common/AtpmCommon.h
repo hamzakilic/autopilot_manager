@@ -19,6 +19,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <arpa/inet.h>
 
 
 #include <SDL2/SDL.h>

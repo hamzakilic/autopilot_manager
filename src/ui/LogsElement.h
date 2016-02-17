@@ -27,6 +27,8 @@ private:
 	list<atpm_string> logs;
 	TTF_Font *gFont;
 	Color foreColor;
+	AtpmMutex mutex;
+
 };
 
 } /* namespace ui */

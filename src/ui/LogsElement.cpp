@@ -25,14 +25,25 @@ LogsElement::~LogsElement() {
 }
 
 void LogsElement::AddLog(atpm_string log){
-	if(logs.size()==20)
+
+	mutex.Lock();
+	if(logs.size()==5)
 		logs.pop_front();
    logs.push_back(log);
+   mutex.Unlock();
+
+
 
 }
 
 void LogsElement::OnRender(){
+
 	RectangleElement::OnRender();
+
+
+
+
+
 	SDL_Color color;
 	color.r=foreColor.R;
 	color.g=foreColor.G;
@@ -41,9 +52,13 @@ void LogsElement::OnRender(){
 
 	TextureHelper texElementHelper(texture);
 	texElementHelper.Lock();
-	atpm_int32 rows=0;
 
+
+
+	atpm_int32 rows=0;
+    mutex.Lock();
 	for(list<atpm_string>::iterator it=logs.begin();it!=logs.end();++it){
+
 	SDL_Surface* textSurface = TTF_RenderUTF8_Blended(gFont, (*it).c_str(), color );
 
 
@@ -54,12 +69,20 @@ void LogsElement::OnRender(){
 	 for(atpm_uint32 h=0;h<textSurface->h;++h){
 	    	for(atpm_uint32 w=0;w<textSurface->w;++w){
 	    		atpm_uint32 argb=((atpm_uint32*)(textSurface->pixels))[h*textSurface->w+w];
-	    	 texElementHelper.Pixels[rows*texElementHelper.Width()+w]= argb;
+	    		if(w+10<=texElementHelper.Width())
+	    	     texElementHelper.Pixels[rows*texElementHelper.Width()+w+10]= argb;
 
 	    	}
 
 	    	rows++;
+	    	if(rows>=texElementHelper.Height())
+	    		break;
+
 	 }
+	 if(rows>=texElementHelper.Height())
+	 	    		break;
+
+	 mutex.Unlock();
 
 
 

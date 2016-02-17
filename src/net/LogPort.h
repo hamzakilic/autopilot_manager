@@ -11,11 +11,13 @@
 #include "../common/AtpmCommon.h"
 #include "../common/AtpmException.h"
 #include "../common/AtpmLog.h"
-#include "../log/LogParser.h"
+#include "../common/AtpmMutex.h"
+#include "../net/LogParser.h"
+
 
 
 namespace atpm {
-namespace log {
+namespace net {
 
 using namespace atpm::common;
 
@@ -31,31 +33,38 @@ public:
 
 class LogPort {
 public:
-	LogPort(atpm_uint16 _port,LogParser &_parser);
+	LogPort(atpm_uint16 _port);
 	virtual ~LogPort();
+	atpm_uint32 LogSize();
+	LogItem * NextLog();
+public:
+
 private:
-	void createSocket();
+
 	void createListeningThread();
-	void createParserThread();
+
+	/**
+	 * @brief friend function for creating socket
+	 */
+	friend void createSocket(LogPort *arg);
+
 	/**
 	 * @brief friend function for reading socket
 	 */
 	friend  atpm_int32 readSocket(void *arg);
-	/**
-	 * @brief friend function for processing logs
-	 */
-	friend atpm_int32 parseLogs(void *arg);
+
 	atpm_uint16 port;
 	atpm_int32 sockfd;
 	struct sockaddr_in servaddr;
 	struct sockaddr_in cliaddr;
 	queue<LogItem*> logs;
-	SDL_mutex * logs_mutex;
+	AtpmMutex  logs_mutex;
 	SDL_Thread *listening_thread;
 	atpm_int32 listen_wait;
-	SDL_Thread *parser_thread;
-	atpm_int32 parser_wait;
-	LogParser &parser;
+
+
+private:
+
 
 
 

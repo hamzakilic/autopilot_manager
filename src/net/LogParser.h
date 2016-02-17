@@ -18,8 +18,9 @@
 
 
 namespace atpm {
-namespace log {
+namespace net {
 using namespace atpm::common;
+
 
 
 
@@ -34,13 +35,20 @@ using namespace atpm::common;
 
 #define STRINGDATALENGTH 1024
 
+class BaseData{
+public:
+	atpm_int32 class_type;
+};
 
-struct StringData{
+class StringData:public BaseData{
+public:
+	StringData();
+
 	atpm_uint8 log_length;
 	atpm_cstring log_data[STRINGDATALENGTH];
 };
 
-struct InputData{
+class InputData:public BaseData{
 	atpm_uint16 year;
 	atpm_uint8 month;
 	atpm_uint8 day;
@@ -56,6 +64,7 @@ struct InputData{
 	atpm_int16 motor_values[4];
 
 
+
 };
 
 
@@ -64,7 +73,8 @@ class LogParser {
 public:
 	LogParser();
 	virtual ~LogParser();
-	void Parse(const atpm_byte *data,atpm_int32 length);
+	BaseData * Parse(const atpm_byte *data,atpm_int32 length);
+
 };
 
 } /* namespace log */

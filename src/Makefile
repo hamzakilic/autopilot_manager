@@ -95,11 +95,12 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	common/AtpmException.$(OBJEXT) common/AtpmLog.$(OBJEXT) \
-	ui/BaseWindow.$(OBJEXT) ui/MainWindow.$(OBJEXT) \
+	common/AtpmMutex.$(OBJEXT) ui/BaseWindow.$(OBJEXT) \
+	ui/Window.$(OBJEXT) ui/AutoPilotWindow.$(OBJEXT) \
 	ui/TextureHelper.$(OBJEXT) ui/BaseElement.$(OBJEXT) \
 	ui/RectangleElement.$(OBJEXT) ui/LogsElement.$(OBJEXT) \
-	ui/Color.$(OBJEXT) log/LogPort.$(OBJEXT) \
-	log/LogParser.$(OBJEXT)
+	ui/Color.$(OBJEXT) net/LogPort.$(OBJEXT) \
+	net/LogParser.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -255,7 +256,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp   ui/BaseWindow.cpp ui/MainWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/Color.cpp log/LogPort.cpp log/LogParser.cpp
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp   ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp 
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -344,6 +345,8 @@ common/AtpmException.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
 common/AtpmLog.$(OBJEXT): common/$(am__dirstamp) \
 	common/$(DEPDIR)/$(am__dirstamp)
+common/AtpmMutex.$(OBJEXT): common/$(am__dirstamp) \
+	common/$(DEPDIR)/$(am__dirstamp)
 ui/$(am__dirstamp):
 	@$(MKDIR_P) ui
 	@: > ui/$(am__dirstamp)
@@ -352,7 +355,8 @@ ui/$(DEPDIR)/$(am__dirstamp):
 	@: > ui/$(DEPDIR)/$(am__dirstamp)
 ui/BaseWindow.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
-ui/MainWindow.$(OBJEXT): ui/$(am__dirstamp) \
+ui/Window.$(OBJEXT): ui/$(am__dirstamp) ui/$(DEPDIR)/$(am__dirstamp)
+ui/AutoPilotWindow.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/TextureHelper.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
@@ -363,16 +367,16 @@ ui/RectangleElement.$(OBJEXT): ui/$(am__dirstamp) \
 ui/LogsElement.$(OBJEXT): ui/$(am__dirstamp) \
 	ui/$(DEPDIR)/$(am__dirstamp)
 ui/Color.$(OBJEXT): ui/$(am__dirstamp) ui/$(DEPDIR)/$(am__dirstamp)
-log/$(am__dirstamp):
-	@$(MKDIR_P) log
-	@: > log/$(am__dirstamp)
-log/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) log/$(DEPDIR)
-	@: > log/$(DEPDIR)/$(am__dirstamp)
-log/LogPort.$(OBJEXT): log/$(am__dirstamp) \
-	log/$(DEPDIR)/$(am__dirstamp)
-log/LogParser.$(OBJEXT): log/$(am__dirstamp) \
-	log/$(DEPDIR)/$(am__dirstamp)
+net/$(am__dirstamp):
+	@$(MKDIR_P) net
+	@: > net/$(am__dirstamp)
+net/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) net/$(DEPDIR)
+	@: > net/$(DEPDIR)/$(am__dirstamp)
+net/LogPort.$(OBJEXT): net/$(am__dirstamp) \
+	net/$(DEPDIR)/$(am__dirstamp)
+net/LogParser.$(OBJEXT): net/$(am__dirstamp) \
+	net/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -381,7 +385,7 @@ autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEP
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f common/*.$(OBJEXT)
-	-rm -f log/*.$(OBJEXT)
+	-rm -f net/*.$(OBJEXT)
 	-rm -f ui/*.$(OBJEXT)
 
 distclean-compile:
@@ -390,15 +394,17 @@ distclean-compile:
 include ./$(DEPDIR)/autopilot_manager.Po
 include common/$(DEPDIR)/AtpmException.Po
 include common/$(DEPDIR)/AtpmLog.Po
-include log/$(DEPDIR)/LogParser.Po
-include log/$(DEPDIR)/LogPort.Po
+include common/$(DEPDIR)/AtpmMutex.Po
+include net/$(DEPDIR)/LogParser.Po
+include net/$(DEPDIR)/LogPort.Po
+include ui/$(DEPDIR)/AutoPilotWindow.Po
 include ui/$(DEPDIR)/BaseElement.Po
 include ui/$(DEPDIR)/BaseWindow.Po
 include ui/$(DEPDIR)/Color.Po
 include ui/$(DEPDIR)/LogsElement.Po
-include ui/$(DEPDIR)/MainWindow.Po
 include ui/$(DEPDIR)/RectangleElement.Po
 include ui/$(DEPDIR)/TextureHelper.Po
+include ui/$(DEPDIR)/Window.Po
 
 .cpp.o:
 	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -533,8 +539,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f common/$(DEPDIR)/$(am__dirstamp)
 	-rm -f common/$(am__dirstamp)
-	-rm -f log/$(DEPDIR)/$(am__dirstamp)
-	-rm -f log/$(am__dirstamp)
+	-rm -f net/$(DEPDIR)/$(am__dirstamp)
+	-rm -f net/$(am__dirstamp)
 	-rm -f ui/$(DEPDIR)/$(am__dirstamp)
 	-rm -f ui/$(am__dirstamp)
 
@@ -546,7 +552,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) log/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -592,7 +598,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) log/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

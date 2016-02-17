@@ -12,7 +12,7 @@ namespace ui {
 
 TextureHelper::TextureHelper(SDL_Texture * _texture):texture(_texture),width(0),height(0),format(0),access(0),pitch(0),Pixels(0) {
    if(SDL_QueryTexture(texture,&format,&access,&width,&height))
-	   throw AtpmException("TextureHelper Init Failed",SDL_GetError());
+	   throw AtpmException("TextureHelper Init Failed:",SDL_GetError());
 
 }
 

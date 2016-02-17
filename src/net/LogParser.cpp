@@ -5,13 +5,17 @@
  *      Author: root
  */
 
-#include "LogParser.h"
+#include "../net/LogParser.h"
 
 namespace atpm {
-namespace log {
+namespace net {
 
 
 
+StringData::StringData():log_length(0){
+	memset(log_data,0,STRINGDATALENGTH);
+
+}
 
 LogParser::LogParser() {
 	// TODO Auto-generated constructor stub
@@ -22,7 +26,7 @@ LogParser::~LogParser() {
 	// TODO Auto-generated destructor stub
 }
 
-void LogParser::Parse(const atpm_byte *value,atpm_int32 length){
+BaseData* LogParser::Parse(const atpm_byte *value,atpm_int32 length){
 
 	if(length>=8){
 	        	//doing seperation and hash calculation
@@ -42,22 +46,22 @@ void LogParser::Parse(const atpm_byte *value,atpm_int32 length){
 	            calculated_hash+=log_length;
 					if(calculated_hash==sended_hash)
 					{
-					  //log_debug("calculated hash is equal:%u\n",calculated_hash);
+
 						switch(log_data_type)
 											  {
 
 											  	  case ATPM_LOG_DATA_TYPE_STRING:
 											  	  {
-											  		    StringData data;
-											  		    data.log_length=log_length;
-											  		    memset(data.log_data,0,STRINGDATALENGTH);
-											  		    memcpy(data.log_data,value+6,log_length);
-											  		    printf("%s\n",data.log_data);
-											  		    break;
+											  		    StringData *data=new StringData();
+											  		    data->class_type=1;
+											  		    data->log_length=log_length;
+											  		    memcpy(data->log_data,value+8,log_length);
+											  		    return data;
+
 											  	  }
 											  	  case ATPM_LOG_DATA_TYPE_INPUT:
 											  	  {
-											  		  //change_input_value(data,log_length,log_item->value+8);
+
 											  		  break;
 											  	  }
 											  default:
@@ -71,6 +75,7 @@ void LogParser::Parse(const atpm_byte *value,atpm_int32 length){
 						AtpmLog::Debug("Calculated hash is not equal\n");
 					}
 	        	}
+	return NULL;
 
 }
 

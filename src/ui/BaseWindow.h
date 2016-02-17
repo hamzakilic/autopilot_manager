@@ -11,6 +11,7 @@
 #include "../common/AtpmCommon.h"
 #include "../common/AtpmException.h"
 #include "../common/AtpmLog.h"
+#include "../ui/Color.h"
 
 namespace atpm {
 namespace ui {
@@ -19,7 +20,7 @@ using namespace atpm::common;
 
 class BaseWindow {
 public:
-	BaseWindow(const atpm_cstring *_name="BaseWindow",atpm_uint32 _width=300,atpm_uint32 _height=300);
+	BaseWindow(const atpm_cstring *_name="BaseWindow",atpm_uint32 _width=300,atpm_uint32 _height=300,Color _background=(0,0,0,255));
 	virtual ~BaseWindow();
     virtual void Show();
     void HandleEvents(SDL_Event &ev);
@@ -53,6 +54,7 @@ protected:
 	SDL_Renderer *renderer;
 	SDL_Window *window;
 	atpm_int32 windowId;
+	Color background;
 
 
 
