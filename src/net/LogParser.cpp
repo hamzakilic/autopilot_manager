@@ -53,31 +53,31 @@ LogParser::~LogParser() {
 InputData *createInputData(const atpm_byte *input_data){
 	 InputData *data=new  InputData;
         data->class_type=2;
-		data->latitude=atpm_to_int32(input_data[0])<<24;
-		data->latitude+=atpm_to_int32(input_data[1])<<16;
-		data->latitude+=atpm_to_int32(input_data[2])<<8;
-		data->latitude+=atpm_to_int32(input_data[3]);
+		data->latitude=input_data[0]<<24;
+		data->latitude|=(input_data[1])<<16;
+		data->latitude|=(input_data[2])<<8;
+		data->latitude|=(input_data[3]);
 
-		data->longtitude=atpm_to_int32(input_data[4])<<24;
-		data->longtitude+=atpm_to_int32(input_data[5])<<16;
-		data->longtitude+=atpm_to_int32(input_data[6])<<8;
-		data->longtitude+=atpm_to_int32(input_data[7]);
+		data->longtitude=(input_data[4])<<24;
+		data->longtitude|=(input_data[5])<<16;
+		data->longtitude|=(input_data[6])<<8;
+		data->longtitude|=(input_data[7]);
 
-		data->sealevel=atpm_to_int32(input_data[8])<<24;
-		data->sealevel+=atpm_to_int32(input_data[9])<<16;
-		data->sealevel+=atpm_to_int32(input_data[10])<<8;
-		data->sealevel+=atpm_to_int32(input_data[11]);
+		data->sealevel=(input_data[8])<<24;
+		data->sealevel|=(input_data[9])<<16;
+		data->sealevel|=(input_data[10])<<8;
+		data->sealevel|=(input_data[11]);
 
 		data->gps_fix=input_data[12];
 		data->status=input_data[13];
 
-		data->msss=atpm_to_int32(input_data[14])<<24;
-		data->msss+=atpm_to_int32(input_data[15])<<16;
-		data->msss+=atpm_to_int32(input_data[16])<<8;
-		data->msss+=atpm_to_int32(input_data[17]);
+		data->msss=(input_data[14])<<24;
+		data->msss|=(input_data[15])<<16;
+		data->msss|=(input_data[16])<<8;
+		data->msss|=(input_data[17]);
 
-		data->year=atpm_to_uint16(input_data[18])<<8;
-		data->year+=atpm_to_uint16(input_data[19]);
+		data->year=(input_data[18])<<8;
+		data->year|=(input_data[19]);
 
 		data->month=input_data[20];
 		data->day=input_data[21];
@@ -85,55 +85,59 @@ InputData *createInputData(const atpm_byte *input_data){
 		data->min=input_data[23];
 		data->sec=input_data[24];
 
-		data->motor_values[0]=atpm_to_int16(input_data[25])<<8;
-		data->motor_values[0]+=atpm_to_int16(input_data[26]);
+		data->motor_values[0]=(input_data[25])<<8;
+		data->motor_values[0]|=(input_data[26]);
 
-		data->motor_values[1]=atpm_to_int16(input_data[27])<<8;
-		data->motor_values[1]+=atpm_to_int16(input_data[28]);
+		data->motor_values[1]=(input_data[27])<<8;
+		data->motor_values[1]|=(input_data[28]);
 
-		data->motor_values[2]=atpm_to_int16(input_data[29])<<8;
-		data->motor_values[2]+=atpm_to_int16(input_data[30]);
+		data->motor_values[2]=(input_data[29])<<8;
+		data->motor_values[2]|=(input_data[30]);
 
-		data->motor_values[3]=atpm_to_int16(input_data[31])<<8;
-		data->motor_values[3]+=atpm_to_int16(input_data[32]);
+		data->motor_values[3]=(input_data[31])<<8;
+		data->motor_values[3]|=(input_data[32]);
 
 		  atpm_int32 temp=0;
 
 		 temp=input_data[33]<<24;
-		 temp+=input_data[34]<<16;
-		 temp+=input_data[35]<<8;
-		 temp+=input_data[36];
+		 temp|=input_data[34]<<16;
+		 temp|=input_data[35]<<8;
+		 temp|=input_data[36];
+		 //printf("%d %x %x %x %x \n",temp,input_data[33],input_data[34],input_data[35],input_data[36]);
 		 data->roll=temp/1000.0f;
 
+
 		 temp=input_data[37]<<24;
-		 temp+=input_data[38]<<16;
-		 temp+=input_data[39]<<8;
-		 temp+=input_data[40];
+		 temp|=input_data[38]<<16;
+		 temp|=input_data[39]<<8;
+		 temp|=input_data[40];
 		 data->pitch=temp/1000.0f;
 
 
 		 temp=input_data[41]<<24;
-		 temp+=input_data[42]<<16;
-		 temp+=input_data[43]<<8;
-		 temp=input_data[44];
+		 temp|=input_data[42]<<16;
+		 temp|=input_data[43]<<8;
+		 temp|=input_data[44];
 		 data->yaw=temp/1000.0f;
 
+		// printf("%f %f %f \n",data->roll,data->pitch,data->yaw);
+
 		 temp=input_data[45]<<24;
-		 temp+=input_data[46]<<16;
-		 temp+=input_data[47]<<8;
-		 temp+=input_data[48];
+		 temp|=input_data[46]<<16;
+		 temp|=input_data[47]<<8;
+		 temp|=input_data[48];
 		 data->pressure=temp/1000.0f;
 
          temp=input_data[49]<<24;
-         temp+=input_data[50]<<16;
-         temp+=input_data[51]<<8;
-         temp+=input_data[52];
+         temp|=input_data[50]<<16;
+         temp|=input_data[51]<<8;
+         temp|=input_data[52];
          data->tempreature=temp/1000.0f;
 
          temp=input_data[53]<<24;
-         temp+=input_data[54]<<16;
-         temp+=input_data[55]<<8;
-         temp+=input_data[56];
+         temp|=input_data[54]<<16;
+         temp|=input_data[55]<<8;
+         temp|=input_data[56];
          data->altitude=temp/1000.0f;
 
 

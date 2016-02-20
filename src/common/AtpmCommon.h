@@ -49,7 +49,7 @@ typedef short atpm_int16;
 typedef unsigned short atpm_uint16;
 typedef char atpm_int8;
 typedef unsigned char atpm_uint8;
-typedef atpm_int8 atpm_byte;
+typedef atpm_uint8 atpm_byte;
 typedef float atpm_float32;
 typedef long atpm_int64;
 typedef unsigned long atpm_uint64;
