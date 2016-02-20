@@ -18,6 +18,7 @@ private:
 	virtual ~AtpmLog();
 public:
 	static void Debug(const atpm_cstring *msg, ...);
+	static void Info(const atpm_cstring *msg, ...);
 
 };
 

@@ -11,11 +11,13 @@ namespace atpm {
 namespace ui {
 
 AutoPilotWindow::AutoPilotWindow()
-    :Window("Autopilot Manager",1024,1024,Color(20,20,20,255)),logs(0),port(0),parser(0) {
+    :Window("Autopilot Manager",1024,1024,Color(20,20,20,255)),logs(0),input(0),port(0),parser(0) {
 
-	logs=new  LogsElement(*this,0.0f,0.9f,0.8f,0.1f,180,Color(20,20,20,255),Color(255,255,255,255));
-	logs->AddLog("hamza");
+	logs=new  LogsElement(*this,0.0f,0.9f,0.8f,0.1f,180,Color(20,120,20,255),Color(255,255,255,255));
+	input=new  InputDataElement(*this,0.8f,0.65f,0.2f,0.35f,180,Color(120,120,20,255),Color(255,255,255,255));
+
 	AddChild(logs);
+	AddChild(input);
 	port=new LogPort(9999);
 	parser=new LogParser();
 	createParserThread();
@@ -39,6 +41,8 @@ AutoPilotWindow::~AutoPilotWindow() {
 		delete port;
 	if(logs)
 	   delete logs;
+	if(input)
+		delete input;
 }
 
 atpm_int32 parseLogs(void *arg){
@@ -51,16 +55,21 @@ atpm_int32 parseLogs(void *arg){
 			delete item;
 			if(data==NULL){
 
-				//window->ShowLog("hamza");
-
 				continue;
 			}
 			if(data->class_type==1)//StringData
 			{
+				printf("class type one comed\n");
 				StringData *string_data=(StringData*)data;
-				window->ShowLog(string_data->log_data);
+				window->ShowLog(atpm_string(string_data->log_data));
 				delete string_data;
 
+			}
+			if(data->class_type==2){//inputdata
+
+				InputData *input_data=(InputData*)data;
+			    window->UpdateInputData(*input_data);
+				delete input_data;
 			}
 
 
@@ -82,8 +91,13 @@ void AutoPilotWindow::createParserThread(){
 }
 
 void AutoPilotWindow::ShowLog(atpm_string data){
-	logs->AddLog(data);
 
+	logs->AddLog(data);
+}
+
+void AutoPilotWindow::UpdateInputData(InputData data){
+  input_data=data;
+  input->UpdateInputData(data);
 }
 
 

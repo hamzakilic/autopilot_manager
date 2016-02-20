@@ -68,6 +68,8 @@ void quitSDL(){
 
 
 int main(void) {
+
+
 	atpm_uint32 quit=0;
 	SDL_Event ev;
 	try{
@@ -90,7 +92,10 @@ int main(void) {
     		   while( SDL_PollEvent( &ev ) != 0 )
     		   { //User requests quit
     			   if( ev.type == SDL_QUIT )
-    			   { quit = 1; }
+    			   {
+    				   quit = 1;
+    				   break;
+    			   }
     			   //Handle window events
     			   window.HandleEvents( ev );
 

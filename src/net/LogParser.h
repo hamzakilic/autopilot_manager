@@ -37,6 +37,7 @@ using namespace atpm::common;
 
 class BaseData{
 public:
+	virtual ~BaseData();
 	atpm_int32 class_type;
 };
 
@@ -49,6 +50,8 @@ public:
 };
 
 class InputData:public BaseData{
+public:
+	InputData();
 	atpm_uint16 year;
 	atpm_uint8 month;
 	atpm_uint8 day;
@@ -62,6 +65,12 @@ class InputData:public BaseData{
 	atpm_uint8 status;//if zero gpxFixOK
 	atpm_uint32 msss;//
 	atpm_int16 motor_values[4];
+	atpm_float32 yaw;
+	atpm_float32 pitch;
+	atpm_float32 roll;
+	atpm_float32 tempreature;
+	atpm_float32 pressure;
+	atpm_float32 altitude;
 
 
 

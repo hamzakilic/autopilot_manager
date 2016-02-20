@@ -12,6 +12,7 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include <sstream>
 #include <queue>
 #include <list>
 
@@ -24,6 +25,10 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+
+
+
+
 
 
 using namespace std;
@@ -50,6 +55,11 @@ typedef long atpm_int64;
 typedef unsigned long atpm_uint64;
 typedef string atpm_string;
 typedef char  atpm_cstring;
+
+
+#define atpm_to_int32(a) ((atpm_int32)a)
+#define atpm_to_uint16(a) ((atpm_uint16)a)
+#define atpm_to_int16(a) ((atpm_int16)a)
 
 
 }/*namespace atpm::common end*/

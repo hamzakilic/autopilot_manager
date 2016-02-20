@@ -30,7 +30,7 @@ void LogsElement::AddLog(atpm_string log){
 	if(logs.size()==5)
 		logs.pop_front();
    logs.push_back(log);
-   mutex.Unlock();
+    mutex.Unlock();
 
 
 
@@ -39,10 +39,6 @@ void LogsElement::AddLog(atpm_string log){
 void LogsElement::OnRender(){
 
 	RectangleElement::OnRender();
-
-
-
-
 
 	SDL_Color color;
 	color.r=foreColor.R;
@@ -55,7 +51,7 @@ void LogsElement::OnRender(){
 
 
 
-	atpm_int32 rows=0;
+	atpm_int32 rows=5;
     mutex.Lock();
 	for(list<atpm_string>::iterator it=logs.begin();it!=logs.end();++it){
 
@@ -82,7 +78,7 @@ void LogsElement::OnRender(){
 	 if(rows>=texElementHelper.Height())
 	 	    		break;
 
-	 mutex.Unlock();
+
 
 
 
@@ -93,6 +89,7 @@ void LogsElement::OnRender(){
 
 
 	}
+	mutex.Unlock();
 	texElementHelper.Unlock();
 
 

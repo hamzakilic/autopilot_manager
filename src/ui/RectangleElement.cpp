@@ -32,7 +32,7 @@ void RectangleElement::OnRender(){
 	calcColor|=fillColor.G<<8;
 	calcColor|=fillColor.B;
 	texHelper.Lock();
-	AtpmLog::Debug("Rectangle w:%d h:%d p:%d\n",texHelper.Width(),texHelper.Height(),texHelper.Pitch());
+
     atpm_int32 pixelCount=texHelper.PixelCount();
 
     for(atpm_uint32 h=0;h<texHelper.Height();++h){

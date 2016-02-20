@@ -57,8 +57,8 @@ void createSocket(LogPort *port){
 
 		}
 		struct timeval tv;
-		tv.tv_sec = 1;
-		tv.tv_usec = 0;
+		tv.tv_sec = 0;
+		tv.tv_usec = 10;
 
 		if(setsockopt(port->sockfd,SOL_SOCKET,SO_RCVTIMEO,&tv,sizeof(tv))){
 			throw AtpmException("Socket timeout option set error\n");
@@ -97,7 +97,7 @@ atpm_int32 readSocket(void *arg){
 	 port->logs.push(log);
 	 port->logs_mutex.Unlock();
 	 }else{
-		AtpmLog::Debug("LogPort recvfrom timeout: %s\n",strerror(errno));
+		//AtpmLog::Debug("LogPort recvfrom timeout: %s\n",strerror(errno));
 	 }
 
 	}

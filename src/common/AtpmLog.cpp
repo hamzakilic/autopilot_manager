@@ -20,6 +20,18 @@ AtpmLog::~AtpmLog() {
 }
 
 void AtpmLog::Debug(const atpm_cstring *msg, ...){
+	      /*  va_list arg;
+			va_start(arg, msg);
+			char buffer[1024];
+			memset(buffer,0,1024);
+			vsnprintf(buffer,1023,msg,arg);
+			va_end(arg);
+			cout<<buffer;*/
+
+
+}
+
+void AtpmLog::Info(const atpm_cstring *msg, ...){
 	        va_list arg;
 			va_start(arg, msg);
 			char buffer[1024];
@@ -30,6 +42,7 @@ void AtpmLog::Debug(const atpm_cstring *msg, ...){
 
 
 }
+
 
 }
 } /* namespace atpm */
