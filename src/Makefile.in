@@ -100,7 +100,9 @@ am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	ui/TextureHelper.$(OBJEXT) ui/BaseElement.$(OBJEXT) \
 	ui/RectangleElement.$(OBJEXT) ui/LogsElement.$(OBJEXT) \
 	ui/InputDataElement.$(OBJEXT) ui/Color.$(OBJEXT) \
-	net/LogPort.$(OBJEXT) net/LogParser.$(OBJEXT)
+	net/LogPort.$(OBJEXT) net/LogParser.$(OBJEXT) \
+	net/TaskPort.$(OBJEXT) task/Task.$(OBJEXT) \
+	task/TaskEcho.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -256,7 +258,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp   ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp 
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp   ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp net/TaskPort.cpp task/Task.cpp task/TaskEcho.cpp 
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -379,6 +381,18 @@ net/LogPort.$(OBJEXT): net/$(am__dirstamp) \
 	net/$(DEPDIR)/$(am__dirstamp)
 net/LogParser.$(OBJEXT): net/$(am__dirstamp) \
 	net/$(DEPDIR)/$(am__dirstamp)
+net/TaskPort.$(OBJEXT): net/$(am__dirstamp) \
+	net/$(DEPDIR)/$(am__dirstamp)
+task/$(am__dirstamp):
+	@$(MKDIR_P) task
+	@: > task/$(am__dirstamp)
+task/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) task/$(DEPDIR)
+	@: > task/$(DEPDIR)/$(am__dirstamp)
+task/Task.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
+task/TaskEcho.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -388,6 +402,7 @@ mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f common/*.$(OBJEXT)
 	-rm -f net/*.$(OBJEXT)
+	-rm -f task/*.$(OBJEXT)
 	-rm -f ui/*.$(OBJEXT)
 
 distclean-compile:
@@ -399,6 +414,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@common/$(DEPDIR)/AtpmMutex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@net/$(DEPDIR)/LogParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@net/$(DEPDIR)/LogPort.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@net/$(DEPDIR)/TaskPort.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@task/$(DEPDIR)/Task.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@task/$(DEPDIR)/TaskEcho.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/AutoPilotWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseElement.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@ui/$(DEPDIR)/BaseWindow.Po@am__quote@
@@ -544,6 +562,8 @@ distclean-generic:
 	-rm -f common/$(am__dirstamp)
 	-rm -f net/$(DEPDIR)/$(am__dirstamp)
 	-rm -f net/$(am__dirstamp)
+	-rm -f task/$(DEPDIR)/$(am__dirstamp)
+	-rm -f task/$(am__dirstamp)
 	-rm -f ui/$(DEPDIR)/$(am__dirstamp)
 	-rm -f ui/$(am__dirstamp)
 
@@ -555,7 +575,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) task/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -601,7 +621,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) ui/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) common/$(DEPDIR) net/$(DEPDIR) task/$(DEPDIR) ui/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -43,6 +43,7 @@ motor_values[3]=0;
 LogParser::LogParser() {
 	// TODO Auto-generated constructor stub
 
+
 }
 
 LogParser::~LogParser() {

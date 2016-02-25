@@ -14,36 +14,46 @@
 #include "../ui/InputDataElement.h"
 #include "../net/LogParser.h"
 #include "../net/LogPort.h"
-
+#include "../net/TaskPort.h"
+#include "../task/Task.h"
+#include "../task/TaskEcho.h"
 
 
 namespace atpm {
 namespace ui {
 
 using namespace atpm::net;
+using namespace atpm::task;
 
 class AutoPilotWindow:public Window {
 public:
 	AutoPilotWindow();
 	virtual ~AutoPilotWindow();
+protected:
+	virtual void HandleKey(SDL_KeyboardEvent &key);
 
 private:
 	LogsElement *logs;
 	InputDataElement *input;
 	LogPort *port;
 	LogParser *parser;
+	TaskPort  *tasker;
 	SDL_Thread *parser_thread;
 	atpm_int32 parser_wait;
-
 	InputData input_data;
+	atpm_uint32 echo_number;
 private:
 	void createParserThread();
-		/**
-			* @brief friend function for processing logs
-			*/
+	/**
+	* @brief friend function for processing logs
+	*/
    friend atpm_int32 parseLogs(void *arg);
    void ShowLog(atpm_string data);
    void UpdateInputData(InputData data);
+
+   void SendEchoTask();
+
+
 
 
 
