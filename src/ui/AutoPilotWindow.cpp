@@ -61,7 +61,7 @@ atpm_int32 parseLogs(void *arg){
 			}
 			if(data->class_type==1)//StringData
 			{
-				printf("class type one comed\n");
+
 				StringData *string_data=(StringData*)data;
 				window->ShowLog(atpm_string(string_data->log_data));
 				delete string_data;
@@ -108,7 +108,11 @@ void AutoPilotWindow::HandleKey(SDL_KeyboardEvent &key){
 	if(key.type==SDL_KEYDOWN){
 		switch(key.keysym.sym ){
 
-			case SDLK_a:SendEchoTask();break;
+			case SDLK_e:SendTaskEcho();break;
+			case SDLK_ESCAPE:SendTaskEmergency();break;
+			case SDLK_s:SendTaskStartMotors();break;
+			case SDLK_q:SendTaskStopMotors();break;
+
 			}
 	}
 	/*else if(key.type==SDL_KEYUP){
@@ -122,12 +126,32 @@ void AutoPilotWindow::HandleKey(SDL_KeyboardEvent &key){
 
 
 
-void AutoPilotWindow::SendEchoTask(){
+void AutoPilotWindow::SendTaskEcho(){
 	stringstream ss;
 	ss<<"Hello Hamza "<<echo_number++;
-    TaskEcho echo(ss.str());
-    echo.Prepare();
-    tasker->SendTask(echo.Data(),echo.Length());
+    TaskEcho task(ss.str());
+    task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+void AutoPilotWindow::SendTaskStartMotors(){
+	TaskStartMotors task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+void AutoPilotWindow::SendTaskStopMotors(){
+
+	TaskStopMotors task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+void AutoPilotWindow::SendTaskEmergency(){
+
+	TaskEmergency task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
 }
 
 

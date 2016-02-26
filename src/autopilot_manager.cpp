@@ -65,7 +65,7 @@ void quitSDL(){
 }
 
 
-union {
+union endiannes {
     int i;
     unsigned char c[sizeof(int)];
 } endian;

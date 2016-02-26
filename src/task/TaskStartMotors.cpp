@@ -1,38 +1,37 @@
 /*
- * TaskEcho.cpp
+ * TaskStartMotors.cpp
  *
- *  Created on: Feb 25, 2016
+ *  Created on: Feb 26, 2016
  *      Author: root
  */
 
-#include "TaskEcho.h"
+#include "TaskStartMotors.h"
 
 namespace atpm {
 namespace task {
 
-TaskEcho::TaskEcho(atpm_string _msg):msg(_msg) {
-
+TaskStartMotors::TaskStartMotors() {
+	// TODO Auto-generated constructor stub
 
 }
 
-TaskEcho::~TaskEcho() {
+TaskStartMotors::~TaskStartMotors() {
 	// TODO Auto-generated destructor stub
 }
 
+void TaskStartMotors::Prepare(){
 
-void TaskEcho::Prepare(){
-    atpm_int32 strlength=msg.length();
-    atpm_uint16 command_type=1;
+    atpm_uint16 command_type=3;
     atpm_uint32 hash=0;
-    atpm_uint32 totallength=strlength+2+4+4;
+    atpm_uint32 totallength=2+4+4;
     data=new atpm_byte[totallength];
 
     data[0]=command_type;
     data[1]=command_type>>8;
-    data[2]=strlength;
-    data[3]=strlength>>8;
-    data[4]=strlength>>16;
-    data[5]=strlength>>24;
+    data[2]=0;
+    data[3]=0>>8;
+    data[4]=0>>16;
+    data[5]=0>>24;
      atpm_int32 counter;
     		for(counter=0;counter<6;++counter)
     			hash+=data[counter];
@@ -41,7 +40,6 @@ void TaskEcho::Prepare(){
     data[7]=hash>>8;
     data[8]=hash>>16;
     data[9]=hash>>24;
-    memcpy(data+10,msg.c_str(),strlength);
     length=totallength;
 }
 

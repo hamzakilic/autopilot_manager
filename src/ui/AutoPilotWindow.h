@@ -17,7 +17,9 @@
 #include "../net/TaskPort.h"
 #include "../task/Task.h"
 #include "../task/TaskEcho.h"
-
+#include "../task/TaskStartMotors.h"
+#include "../task/TaskStopMotors.h"
+#include "../task/TaskEmergency.h"
 
 namespace atpm {
 namespace ui {
@@ -51,7 +53,10 @@ private:
    void ShowLog(atpm_string data);
    void UpdateInputData(InputData data);
 
-   void SendEchoTask();
+   void SendTaskEcho();
+   void SendTaskStartMotors();
+   void SendTaskStopMotors();
+   void SendTaskEmergency();
 
 
 
@@ -74,3 +79,4 @@ private:
 } /* namespace atpm */
 
 #endif /* AUTOPILOTWINDOW_H_ */
+
