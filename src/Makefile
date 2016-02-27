@@ -103,7 +103,9 @@ am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	net/LogPort.$(OBJEXT) net/LogParser.$(OBJEXT) \
 	net/TaskPort.$(OBJEXT) task/Task.$(OBJEXT) \
 	task/TaskEcho.$(OBJEXT) task/TaskStartMotors.$(OBJEXT) \
-	task/TaskStopMotors.$(OBJEXT) task/TaskEmergency.$(OBJEXT)
+	task/TaskStopMotors.$(OBJEXT) task/TaskEmergency.$(OBJEXT) \
+	task/TaskTakeoff.$(OBJEXT) task/TaskMotorCalibrate.$(OBJEXT) \
+	task/TaskMotorValue.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -259,7 +261,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp net/TaskPort.cpp task/Task.cpp task/TaskEcho.cpp task/TaskStartMotors.cpp task/TaskStopMotors.cpp task/TaskEmergency.cpp 
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp net/TaskPort.cpp task/Task.cpp task/TaskEcho.cpp task/TaskStartMotors.cpp task/TaskStopMotors.cpp task/TaskEmergency.cpp task/TaskTakeoff.cpp task/TaskMotorCalibrate.cpp task/TaskMotorValue.cpp 
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -400,6 +402,12 @@ task/TaskStopMotors.$(OBJEXT): task/$(am__dirstamp) \
 	task/$(DEPDIR)/$(am__dirstamp)
 task/TaskEmergency.$(OBJEXT): task/$(am__dirstamp) \
 	task/$(DEPDIR)/$(am__dirstamp)
+task/TaskTakeoff.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
+task/TaskMotorCalibrate.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
+task/TaskMotorValue.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -425,8 +433,11 @@ include net/$(DEPDIR)/TaskPort.Po
 include task/$(DEPDIR)/Task.Po
 include task/$(DEPDIR)/TaskEcho.Po
 include task/$(DEPDIR)/TaskEmergency.Po
+include task/$(DEPDIR)/TaskMotorCalibrate.Po
+include task/$(DEPDIR)/TaskMotorValue.Po
 include task/$(DEPDIR)/TaskStartMotors.Po
 include task/$(DEPDIR)/TaskStopMotors.Po
+include task/$(DEPDIR)/TaskTakeoff.Po
 include ui/$(DEPDIR)/AutoPilotWindow.Po
 include ui/$(DEPDIR)/BaseElement.Po
 include ui/$(DEPDIR)/BaseWindow.Po

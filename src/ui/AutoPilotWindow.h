@@ -20,6 +20,9 @@
 #include "../task/TaskStartMotors.h"
 #include "../task/TaskStopMotors.h"
 #include "../task/TaskEmergency.h"
+#include "../task/TaskTakeoff.h"
+#include "../task/TaskMotorCalibrate.h"
+#include "../task/TaskMotorValue.h"
 
 namespace atpm {
 namespace ui {
@@ -44,6 +47,7 @@ private:
 	atpm_int32 parser_wait;
 	InputData input_data;
 	atpm_uint32 echo_number;
+	atpm_int32 motor_value;
 private:
 	void createParserThread();
 	/**
@@ -57,6 +61,9 @@ private:
    void SendTaskStartMotors();
    void SendTaskStopMotors();
    void SendTaskEmergency();
+   void SendTaskTakeoff();
+   void SendTaskMotorcalibrate();
+   void SendTaskMotorvalue(atpm_int32 val);
 
 
 

@@ -11,7 +11,7 @@ namespace atpm {
 namespace ui {
 
 AutoPilotWindow::AutoPilotWindow()
-    :Window("Autopilot Manager",1024,1024,Color(20,20,20,255)),logs(0),input(0),port(0),parser(0),tasker(0),echo_number(0) {
+    :Window("Autopilot Manager",1024,1024,Color(20,20,20,255)),logs(0),input(0),port(0),parser(0),tasker(0),echo_number(0),motor_value(0) {
 
 	logs=new  LogsElement(*this,0.0f,0.9f,0.8f,0.1f,180,Color(20,120,20,255),Color(255,255,255,255));
 	input=new  InputDataElement(*this,0.8f,0.65f,0.2f,0.35f,180,Color(120,120,20,255),Color(255,255,255,255));
@@ -112,6 +112,10 @@ void AutoPilotWindow::HandleKey(SDL_KeyboardEvent &key){
 			case SDLK_ESCAPE:SendTaskEmergency();break;
 			case SDLK_s:SendTaskStartMotors();break;
 			case SDLK_q:SendTaskStopMotors();break;
+			case SDLK_t:SendTaskTakeoff();break;
+			case SDLK_c:SendTaskMotorcalibrate();break;
+			case SDLK_UP:SendTaskMotorvalue(motor_value++);break;
+			case SDLK_DOWN:SendTaskMotorvalue(motor_value--);break;
 
 			}
 	}
@@ -148,11 +152,40 @@ void AutoPilotWindow::SendTaskStopMotors(){
 }
 
 void AutoPilotWindow::SendTaskEmergency(){
-
 	TaskEmergency task;
 	task.Prepare();
     tasker->SendTask(task.Data(),task.Length());
 }
+
+void AutoPilotWindow::SendTaskTakeoff(){
+
+	TaskTakeoff task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+void AutoPilotWindow::SendTaskMotorcalibrate(){
+
+	TaskMotorCalibrate task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+void AutoPilotWindow::SendTaskMotorvalue(atpm_int32 val){
+    if(val<0){
+    	motor_value=0;
+    	val=0;
+    }
+    if(val>1000){
+    	motor_value=1000;
+    	val=1000;
+    }
+	TaskMotorValue task(val);
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
+
+
 
 
 
