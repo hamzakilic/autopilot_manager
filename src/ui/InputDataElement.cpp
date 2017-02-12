@@ -34,7 +34,9 @@ void InputDataElement::UpdateInputData(InputData _data){
 void InputDataElement::OnRender(){
 
 	RectangleElement::OnRender();
+
     mutex.Lock();
+
     stringstream ss;
 
 	longtitude="Longtitude:";
@@ -171,7 +173,7 @@ void InputDataElement::OnRender(){
 	ss.str("");
 
 
-	mutex.Unlock();
+
     list<atpm_string> logs;
     logs.push_back(longtitude);
     logs.push_back(latitude);
@@ -224,8 +226,8 @@ void InputDataElement::OnRender(){
 	    		break;
 
 	 }
-	 if(rows>=texElementHelper.Height())
-	 	    		break;
+	// if(rows>=texElementHelper.Height())
+	 //	    		break;
 
 
 
@@ -239,7 +241,7 @@ void InputDataElement::OnRender(){
 
 	}
 	texElementHelper.Unlock();
-
+	mutex.Unlock();
 
 
 

@@ -105,7 +105,7 @@ am_autopilot_manager_OBJECTS = autopilot_manager.$(OBJEXT) \
 	task/TaskEcho.$(OBJEXT) task/TaskStartMotors.$(OBJEXT) \
 	task/TaskStopMotors.$(OBJEXT) task/TaskEmergency.$(OBJEXT) \
 	task/TaskTakeoff.$(OBJEXT) task/TaskMotorCalibrate.$(OBJEXT) \
-	task/TaskMotorValue.$(OBJEXT)
+	task/TaskMotorValue.$(OBJEXT) task/TaskBalance.$(OBJEXT)
 autopilot_manager_OBJECTS = $(am_autopilot_manager_OBJECTS)
 autopilot_manager_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -170,7 +170,7 @@ AM_DEFAULT_VERBOSITY = 1
 AUTOCONF = ${SHELL} /work/projects/tobor/autopilot_manager/missing autoconf
 AUTOHEADER = ${SHELL} /work/projects/tobor/autopilot_manager/missing autoheader
 AUTOMAKE = ${SHELL} /work/projects/tobor/autopilot_manager/missing automake-1.14
-AWK = gawk
+AWK = mawk
 CPPFLAGS = 
 CXX = g++
 CXXDEPMODE = depmode=gcc3
@@ -261,7 +261,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 AUTOMAKE_OPTIONS = subdir-objects
-autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp net/TaskPort.cpp task/Task.cpp task/TaskEcho.cpp task/TaskStartMotors.cpp task/TaskStopMotors.cpp task/TaskEmergency.cpp task/TaskTakeoff.cpp task/TaskMotorCalibrate.cpp task/TaskMotorValue.cpp 
+autopilot_manager_SOURCES = autopilot_manager.cpp  common/AtpmException.cpp common/AtpmLog.cpp common/AtpmMutex.cpp ui/BaseWindow.cpp ui/Window.cpp ui/AutoPilotWindow.cpp ui/TextureHelper.cpp ui/BaseElement.cpp ui/RectangleElement.cpp ui/LogsElement.cpp ui/InputDataElement.cpp ui/Color.cpp net/LogPort.cpp net/LogParser.cpp net/TaskPort.cpp task/Task.cpp task/TaskEcho.cpp task/TaskStartMotors.cpp task/TaskStopMotors.cpp task/TaskEmergency.cpp task/TaskTakeoff.cpp task/TaskMotorCalibrate.cpp task/TaskMotorValue.cpp task/TaskBalance.cpp 
 AM_CFLAGS = `sdl2-config --cflags`
 AM_LDFLAGS = `sdl2-config --libs`
 all: all-am
@@ -408,6 +408,8 @@ task/TaskMotorCalibrate.$(OBJEXT): task/$(am__dirstamp) \
 	task/$(DEPDIR)/$(am__dirstamp)
 task/TaskMotorValue.$(OBJEXT): task/$(am__dirstamp) \
 	task/$(DEPDIR)/$(am__dirstamp)
+task/TaskBalance.$(OBJEXT): task/$(am__dirstamp) \
+	task/$(DEPDIR)/$(am__dirstamp)
 
 autopilot_manager$(EXEEXT): $(autopilot_manager_OBJECTS) $(autopilot_manager_DEPENDENCIES) $(EXTRA_autopilot_manager_DEPENDENCIES) 
 	@rm -f autopilot_manager$(EXEEXT)
@@ -431,6 +433,7 @@ include net/$(DEPDIR)/LogParser.Po
 include net/$(DEPDIR)/LogPort.Po
 include net/$(DEPDIR)/TaskPort.Po
 include task/$(DEPDIR)/Task.Po
+include task/$(DEPDIR)/TaskBalance.Po
 include task/$(DEPDIR)/TaskEcho.Po
 include task/$(DEPDIR)/TaskEmergency.Po
 include task/$(DEPDIR)/TaskMotorCalibrate.Po

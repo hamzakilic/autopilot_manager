@@ -75,6 +75,7 @@ atpm_int32 parseLogs(void *arg){
 			}
 
 
+
 		}else SDL_Delay(100);
 	}
 	return 0;
@@ -112,10 +113,12 @@ void AutoPilotWindow::HandleKey(SDL_KeyboardEvent &key){
 			case SDLK_ESCAPE:SendTaskEmergency();break;
 			case SDLK_s:SendTaskStartMotors();break;
 			case SDLK_q:SendTaskStopMotors();break;
+			case SDLK_b:SendTaskBalance();break;
 			case SDLK_t:SendTaskTakeoff();break;
 			case SDLK_c:SendTaskMotorcalibrate();break;
-			case SDLK_UP:SendTaskMotorvalue(motor_value++);break;
-			case SDLK_DOWN:SendTaskMotorvalue(motor_value--);break;
+			case SDLK_UP:motor_value+=25; SendTaskMotorvalue(motor_value);break;
+			case SDLK_DOWN:motor_value-=25;SendTaskMotorvalue(motor_value);break;
+
 
 			}
 	}
@@ -142,6 +145,9 @@ void AutoPilotWindow::SendTaskStartMotors(){
 	TaskStartMotors task;
 	task.Prepare();
     tasker->SendTask(task.Data(),task.Length());
+
+
+
 }
 
 void AutoPilotWindow::SendTaskStopMotors(){
@@ -163,6 +169,12 @@ void AutoPilotWindow::SendTaskTakeoff(){
 	task.Prepare();
     tasker->SendTask(task.Data(),task.Length());
 }
+void AutoPilotWindow::SendTaskBalance(){
+
+	TaskBalance task;
+	task.Prepare();
+    tasker->SendTask(task.Data(),task.Length());
+}
 
 void AutoPilotWindow::SendTaskMotorcalibrate(){
 
@@ -172,6 +184,7 @@ void AutoPilotWindow::SendTaskMotorcalibrate(){
 }
 
 void AutoPilotWindow::SendTaskMotorvalue(atpm_int32 val){
+
     if(val<0){
     	motor_value=0;
     	val=0;

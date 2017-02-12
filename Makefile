@@ -196,7 +196,7 @@ AM_DEFAULT_VERBOSITY = 1
 AUTOCONF = ${SHELL} /work/projects/tobor/autopilot_manager/missing autoconf
 AUTOHEADER = ${SHELL} /work/projects/tobor/autopilot_manager/missing autoheader
 AUTOMAKE = ${SHELL} /work/projects/tobor/autopilot_manager/missing automake-1.14
-AWK = gawk
+AWK = mawk
 CPPFLAGS = 
 CXX = g++
 CXXDEPMODE = depmode=gcc3

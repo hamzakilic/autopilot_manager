@@ -13,7 +13,7 @@ namespace ui{
 BaseWindow::BaseWindow(const atpm_cstring * _name,atpm_uint32 _width,atpm_uint32 _height,Color _background)
 :name(_name,strlen(_name)), width(_width),height(_height),renderer(0),window(0),windowId(0),background(_background) {
 
-	window = SDL_CreateWindow( name.c_str() , SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE|SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow( name.c_str() , SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
 	if(window==NULL)
 		throw AtpmException("Could not create window");
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );

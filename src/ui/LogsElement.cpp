@@ -75,8 +75,8 @@ void LogsElement::OnRender(){
 	    		break;
 
 	 }
-	 if(rows>=texElementHelper.Height())
-	 	    		break;
+	 //if(rows>=texElementHelper.Height())
+	 	    	//	break;
 
 
 

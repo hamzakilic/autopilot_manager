@@ -23,6 +23,7 @@
 #include "../task/TaskTakeoff.h"
 #include "../task/TaskMotorCalibrate.h"
 #include "../task/TaskMotorValue.h"
+#include "../task/TaskBalance.h"
 
 namespace atpm {
 namespace ui {
@@ -62,6 +63,7 @@ private:
    void SendTaskStopMotors();
    void SendTaskEmergency();
    void SendTaskTakeoff();
+   void SendTaskBalance();
    void SendTaskMotorcalibrate();
    void SendTaskMotorvalue(atpm_int32 val);
 
